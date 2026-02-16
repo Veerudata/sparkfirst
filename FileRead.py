@@ -47,6 +47,76 @@ spark = (
     .config("spark.default.parallelism", "1")
     .getOrCreate()
 )
+
+
+df = spark.read.option("multiline", "true") \
+    .json("file:///C:/Users/veera/instance_types.json")
+
+# df.show(truncate=False)
+
+df.printSchema()
+
+
+# data = spark.read.format("csv") \
+#     .option("header", "true") \
+#     .load("file:///E:/Downloads/instancetypes.csv")
+#
+# data = data.withColumnRenamed("Instance type", "instance_type") \
+#     .withColumnRenamed("Instance family", "instance_family") \
+#     .withColumnRenamed("vCPUs", "vcpu") \
+#     .withColumnRenamed("Memory (GiB)", "memory_gib") \
+#     .withColumnRenamed("Network performance", "network_perf")
+#
+# data.createOrReplaceTempView("data")
+#
+# # data.printSchema()
+# selectCols = spark.sql("""
+# SELECT
+#     instance_type,
+#     instance_family,
+#     vcpu,
+#     memory_gib,
+#     network_perf
+#     FROM data
+# """)
+#
+# selectCols.show(10000)
+# from pyspark.sql import Row
+
+# spark.createDataFrame([Row(total_rows=data.count())]).show()
+# countentry = data.count()
+# print(countentry)
+
+
+from pyspark.sql.functions import split
+
+# from pyspark.sql.functions import split, col
+#
+# df2 = data.withColumn("cols", split(col("value"), "\t"))
+#
+# df2.select(
+#     col("cols").getItem(0).alias("S_No"),
+#     col("cols").getItem(1).alias("Date_Time"),
+#     col("cols").getItem(2).alias("HR_Name"),
+#     col("cols").getItem(3).alias("Contact_No"),
+#     col("cols").getItem(4).alias("Email"),
+#     col("cols").getItem(5).alias("Company"),
+#     col("cols").getItem(6).alias("Client"),
+#     col("cols").getItem(7).alias("Mode"),
+#     col("cols").getItem(8).alias("Place")
+# ).show()
+#
+# df2.persist()
+#
+# print('Persisted DF2')
+#
+#
+# df2.rdd.partitions.size
+
+
+
+
+
 #
 # from pyspark.sql import SparkSession
 # import time
@@ -345,17 +415,17 @@ spark = (
 
 ############  GET READY SQL DATA  #############
 
-data = [
-    (0, "06-26-2011", 300.4, "Exercise", "GymnasticsPro", "cash"),
-    (1, "05-26-2011", 200.0, "Exercise Band", "Weightlifting", "credit"),
-    (2, "06-01-2011", 300.4, "Exercise", "Gymnastics Pro", "cash"),
-    (3, "06-05-2011", 100.0, "Gymnastics", "Rings", "credit"),
-    (4, "12-17-2011", 300.0, "Team Sports", "Field", "cash"),
-    (5, "02-14-2011", 200.0, "Gymnastics", None, "cash"),
-    (6, "06-05-2011", 100.0, "Exercise", "Rings", "credit"),
-    (7, "12-17-2011", 300.0, "Team Sports", "Field", "cash"),
-    (8, "02-14-2011", 200.0, "Gymnastics", None, "cash")
-]
+# data = [
+#     (0, "06-26-2011", 300.4, "Exercise", "GymnasticsPro", "cash"),
+#     (1, "05-26-2011", 200.0, "Exercise Band", "Weightlifting", "credit"),
+#     (2, "06-01-2011", 300.4, "Exercise", "Gymnastics Pro", "cash"),
+#     (3, "06-05-2011", 100.0, "Gymnastics", "Rings", "credit"),
+#     (4, "12-17-2011", 300.0, "Team Sports", "Field", "cash"),
+#     (5, "02-14-2011", 200.0, "Gymnastics", None, "cash"),
+#     (6, "06-05-2011", 100.0, "Exercise", "Rings", "credit"),
+#     (7, "12-17-2011", 300.0, "Team Sports", "Field", "cash"),
+#     (8, "02-14-2011", 200.0, "Gymnastics", None, "cash")
+# ]
 #
 # df = spark.createDataFrame(data, ["id", "tdate", "amount", "category", "product", "spendby"])
 # df.show()
@@ -534,35 +604,35 @@ data = [
 # data = spark.read.textFile("file:///C:\Users\veera\OneDrive\Desktop\Sai's big data course\Resume\CALLS.txt")
 # data.show()
 
-data = spark.read.text(
-    r"file:///C:/Users/veera/OneDrive/Desktop/Sai's big data course/Resume/CALLS.txt"
-)
-# data.show(truncate=False)
-
-from pyspark.sql.functions import split
-
-from pyspark.sql.functions import split, col
-
-df2 = data.withColumn("cols", split(col("value"), "\t"))
-
-df2.select(
-    col("cols").getItem(0).alias("S_No"),
-    col("cols").getItem(1).alias("Date_Time"),
-    col("cols").getItem(2).alias("HR_Name"),
-    col("cols").getItem(3).alias("Contact_No"),
-    col("cols").getItem(4).alias("Email"),
-    col("cols").getItem(5).alias("Company"),
-    col("cols").getItem(6).alias("Client"),
-    col("cols").getItem(7).alias("Mode"),
-    col("cols").getItem(8).alias("Place")
-).show()
-
-df2.persist()
-
-print('Persisted DF2')
-
-
-df2.rdd.partitions.size
+# data = spark.read.text(
+#     r"file:///E:/Users/veera/OneDrive/Desktop/Sai's big data course/Resume/CALLS.txt"
+# )
+# # data.show(truncate=False)
+#
+# from pyspark.sql.functions import split
+#
+# from pyspark.sql.functions import split, col
+#
+# df2 = data.withColumn("cols", split(col("value"), "\t"))
+#
+# df2.select(
+#     col("cols").getItem(0).alias("S_No"),
+#     col("cols").getItem(1).alias("Date_Time"),
+#     col("cols").getItem(2).alias("HR_Name"),
+#     col("cols").getItem(3).alias("Contact_No"),
+#     col("cols").getItem(4).alias("Email"),
+#     col("cols").getItem(5).alias("Company"),
+#     col("cols").getItem(6).alias("Client"),
+#     col("cols").getItem(7).alias("Mode"),
+#     col("cols").getItem(8).alias("Place")
+# ).show()
+#
+# df2.persist()
+#
+# print('Persisted DF2')
+#
+#
+# df2.rdd.partitions.size
 
 
 from pyspark import StorageLevel
